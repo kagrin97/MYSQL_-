@@ -1,0 +1,102 @@
+기본 MySql (생활코딩)
+
+0. Bitnami WAMP STACK에 manage server에 mysql이 running 중 이여야함
+1. cmd 실행
+2. cd C:\Bitnami\wampstack-7.4.16-0\mysql\bin
+3. mysql -uroot -p
+
+데이터베이스 한번에 끝내기 영상
+
+기본
+SHOW DATABASES = 모든 데이터 베이스를 보여줘 	(스키마),  컨트로 + 엔터 => 실행
+USE world = world 라는 데이터베이스를 쓰겠다 
+SHOW tables = 테이블을 보여줘
+SHOW table status = 테이블 상태를 보여줘
+DESC city = city라는 테이블을 상세히 보여줘, 		DESCRIBE = 설명이라는 뜻
+
+select
+SELECT * FROM city = city라는 테이블의 전체 row를 보여줘,     * = ALL
+SELECT NAME FROM city = city 테이블의 name만 가져와줘
+select NAME, population from city = name과 population을 둘다 가져올수도 있다
+
+where
+select * from city where population > 8000000 = where 문은 일종의 if문이다 , population 이 8000000초과인 필드만 가져온다
+SELECT * FROM city WHERE countrycode = 'KOR'; = 한국만 가져온다
+SELECT * FROM city WHERE countrycode = 'KOR' AND population > 1000000 = 한국과 인구 100만초과만 가져온다
+
+between
+SELECT * FROM city WHERE population BETWEEN 700000 AND 800000 = 인구수 70만과 80만 사이를 가져온다
+
+in
+SELECT * FROM city WHERE Name IN('seoul', 'tokyo') = name이 seoul, tokyo가 포함된 필드를 가져온다
+
+like
+SELECT * FROM city WHERE Name LIKE 'se_ul' = seoul이 기억이 안날때 _를 쓸수있다(한글자만쓸때 추천)
+SELECT * FROM city WHERE Name LIKE 'seo%' = 여러글자가 기억이 안나거나 할떄 (띄어쓰기가능)
+
+sub query
+SELECT *
+FROM city
+WHERE countrycode = (	SELECT countrycode
+			FROM	city
+			WHERE	name = 'SEOUL'	)
+= 퀴리문안에 쿼리문이 있는것
+
+any, some
+SELECT *
+FROM city
+WHERE population > ANY (	SELECT population
+			FROM	city
+			WHERE	District = 'SEOUL'	)
+= 퀴리문안의 안의 결과가 하나라도 만족하면 출력
+= 위의 경우 seoul의 인구보다 높은 도시를 출력함(뭄바이)
+= some과 any는 동일한 결과를 보여준다
+
+all
+SELECT *
+FROM city
+WHERE population > all (	SELECT population
+			FROM	city
+			WHERE	District = 'SEOUL'	)
+= 쿼리안의 쿼리결과를 모두 만족해야한다
+= 위의경우 인구수가 가장높은도시보다 높아야한다
+
+order dy
+SELECT * FROM city ORDER BY population DESC = 인구수를 내림차순으로 보여준다, ASC는 디폴트다
+SELECT * FROM city ORDER BY countrycode ASC, population DESC = 나라코드는 오름차순, 인구수는 내림차순으로
+
+distinct
+SELECT DISTINCT countrycode FROM city  = DISTINCT는 중복을 제거해준다 1개씩
+
+limit
+SELECT * FROM city ORDER BY Population DESC LIMIT 1 = 딱 상위 한개만 출력한다
+
+group by, as
+SELECT countrycode, AVG(population) AS 'AVG'
+FROM city
+GROUP BY countrycode
+= countrycode를 한가지씩으로만 묶어주고 예: kor,usa 하나씩
+= 인구수를 평균구해서 출력
+= 상위 카테고리 이름을 AVG로 체인지
+= AVG : 평균
+= MIN : 최소값
+= MAX : 최대값
+= COUNT : 각나라마다 도시의 수
+= COUNT(DISTINCT) : 중복 제외된 행의 개수
+= STDEV : 표준편차
+= VARIANCE : 분산
+
+having
+SELECT countrycode, MAX(population)
+FROM city
+GROUP BY countrycode
+HAVING MAX(population) > 8000000
+= GROUP BY 를 사용하였을떄 where 처럼 조건문을걸고 싶으면
+= having을 걸면 된다
+
+rollup ( 이해가 잘안됨)
+SELECT countrycode, NAME, SUM(population)
+FROM city
+GROUP BY countrycode, NAME WITH ROLLUP
+= 총합 또는 중간합계가 필요한 경우 사용
+= GROUP BY절과 함께 WITH ROLLUP문 사용
