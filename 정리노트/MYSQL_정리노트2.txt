@@ -1,0 +1,66 @@
+MYSQL 내장함수
+
+length
+SELECT LENGTH('SDFSDFSD')  = 문자열의 길이를 반환한다
+
+concat
+SELECT CONCAT('A', 'B', 'C')   = 여러문자열을 하나의 문자열로 반환
+= 전달받은 문자열중 하나라도 null이라면 null을 반환
+
+locate
+SELECT LOCATE('a', 'cba')  =  a가 cba중 몇번쨰 인덱스에 존재하는지 알려줌
+= mysql은 인덱스가 1부터  시작한다
+
+left, right
+SELECT 
+LEFT('ABCDEFG',3),
+RIGHT('ABCDEFG',3)
+= 왼쪽에서 3개만 뽑아줘 : ABC
+= 오른쪽에서 3개만 뽑아줘 : EFG
+
+lower, upper
+= 둘다 소문자로 바꾸거나 대문자로 바꾼다
+= lower('ASDFASDF'), upper('asdfasf')
+
+replace
+SELECT REPLACE('HELLOW', 'H', 'J')   =  hellow의 h를 j로 바꿔준다 jellow
+
+trim
+SELECT TRIM('  SDF  '),    = 양쪽 공백을 없애줌
+TRIM(LEADING '#' FROM '#SDFS'),  = 왼쪽에 특정문자열을 지워줌
+TRIM(TRAILING '#' FROM 'SDF#')   = 오른쪽 특정문자열을 지워줌
+
+format
+SELECT FORMAT(12323123.123,2)  ===>  12,323,123.12
+= 2번째 자리까지 소수를 보여주고 쉼표를 사용하는 형식으로 변환
+
+floor, ceil, round
+= 순서대로 내림, 올림, 반올림
+
+sqrt, pow, exp, log
+= sqrt : 양의 제곱근 sqrt(4) -> 2
+= pow : 첫째인수밑수, 둘째인수 지수 pow(2,3) -> 8  (2**3)
+= exp : 인수로 지수를 전달받아 e의 거듭제곱을 계산
+= log : 자연로그 값을 계산
+
+abs, rand
+= abs : 절대값을 반환
+= rand : 0.0보다 크거나 같고 1.0보다 작은 실수를 무작위 생성
+
+now, curdate, curtime
+= now : 현재 날짜와 시간
+= curdate : 현재 날짜
+= curtime : 현재 시간
+
+date, month, day, hour, minute, secound
+= 각각 일월시간분초
+= DAY(NOW()) : 현재 일만 보여줘
+
+monthname, dayname
+= 월에 해당하는 이름을 반환
+= 일에 해당하는 이름을 반환
+
+dayofweek, dayofmonth, dayofyear
+= 그날이 해당주에 몇일인지  	1~7,  1:일요일, 7:토요일
+= 그날이 해당달에 몇일인지 		1~31
+= 그날이 그년에 몇일인지 		1~365

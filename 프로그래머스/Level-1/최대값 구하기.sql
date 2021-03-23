@@ -1,0 +1,10 @@
+SELECT DATETIME	
+FROM ANIMAL_INS
+WHERE DATETIME
+ORDER BY DATETIME DESC
+LIMIT 1
+
+/*
+가장 최근에 들어온 동물을 구한다
+내림차순으로 하나만 가져온다
+*/
